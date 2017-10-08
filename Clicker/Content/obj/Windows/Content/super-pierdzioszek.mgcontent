@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/super-pierdzioszek.mp3</SourceFile>
+  <SourceTime>2017-10-08T19:53:38.7033084+02:00</SourceTime>
+  <DestFile>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/bin/Windows/Content/super-pierdzioszek.xnb</DestFile>
+  <DestTime>2017-10-08T19:54:50.5678722+02:00</DestTime>
+  <Importer>Mp3Importer</Importer>
+  <ImporterTime>2017-10-05T22:12:04+02:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2017-10-05T22:12:04+02:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/bin/Windows/Content/super-pierdzioszek.wma</string>
+  </BuildOutput>
+</PipelineBuildEvent>
