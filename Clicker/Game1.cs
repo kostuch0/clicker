@@ -13,12 +13,12 @@ namespace Clicker
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Clickorz : Game
     {
         GraphicsDeviceManager graphics;
         Clicker.Muzyka play = new Clicker.Muzyka();
         SpriteBatch spriteBatch, hpbar, menu, pokazpotwor;
-        Texture2D tlo, texhud, hp, hp1, potwor, ostatnipotwor;
+        Texture2D tlo, texhud, hp, hp1, potwor, ostatnipotwor,playButton;
         Vector2 vecpos, textpos, nazwapotworapos, hppotworapos;
         SpriteFont Font1, nazwapotworafont;
         KeyboardState keystate, lastKeyState;
@@ -35,12 +35,21 @@ namespace Clicker
         double frameRate = 0.0;
         bool addingx = true, addingy = true, napis = true, menub = false, test;
         string text;
-        public Game1()
+        enum GameState
+        {
+            MainMenu,
+            Options,
+            Playing,
+        }
+        GameState CurrentGameState = GameState.MainMenu;
+        int screenWidth = 1280, screenHeight = 1024;
+
+        MainMenu mainMenu;
+
+        public Clickorz()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            this.graphics.PreferredBackBufferWidth = 1280;
-            this.graphics.PreferredBackBufferHeight = 1024;
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             Window.Title = "Jakiś clicker";
             this.IsMouseVisible = true;
@@ -137,7 +146,13 @@ namespace Clicker
         /// </summary>
         protected override void LoadContent()
         {
+            graphics.PreferredBackBufferWidth = screenWidth;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.ApplyChanges();
+
+
             // Create a new SpriteBatch, which can be used to draw textures.
+            playButton = Content.Load<Texture2D>("Graj");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             pokazpotwor = new SpriteBatch(GraphicsDevice);
             hpbar = new SpriteBatch(GraphicsDevice);
@@ -149,9 +164,10 @@ namespace Clicker
             texhud = Content.Load<Texture2D>("hp");
             hp = Content.Load<Texture2D>("hp");
             hp1 = Content.Load<Texture2D>("hp_1");
-            song = Content.Load<Song>("zbuku");
+            song = Content.Load<Song>("super-pierdzioszek");
             play.graj(song);
-
+            mainMenu = new MainMenu(playButton, graphics.GraphicsDevice);
+            mainMenu.setPosition(new Vector2((screenWidth / 2), 800));
             // TODO: use this.Content to load your game content here
         }
         public int procent(double total, double current)
@@ -260,18 +276,30 @@ namespace Clicker
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            MouseState mouse = Mouse.GetState();
+            switch (CurrentGameState)
+            {
+                case GameState.MainMenu:
+                    if (mainMenu.isClicked == true) CurrentGameState = GameState.Playing;
+                    mainMenu.Update(mouse);
+                    break;
 
+                case GameState.Playing:
+                    //fullhd();
+                    updatenapis();
+                    nowymob();
+                    // TODO: Add your update logic here
+                    lastKeyState = keystate;
+                    keystate = Keyboard.GetState();
+                    poruszanie();
+                    zadajobrazenia(false);
+                    click();
+                    otworzmenu();
+                    break;
+                
+            }
             // TODO: Add your update logic here
-            //fullhd();
-            updatenapis();
-            nowymob();
-            // TODO: Add your update logic here
-            lastKeyState = keystate;
-            keystate = Keyboard.GetState();
-            poruszanie();
-            zadajobrazenia(false);
-            click();
-            otworzmenu();
+
             base.Update(gameTime);
         }
 
@@ -281,41 +309,32 @@ namespace Clicker
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            pokazpotwor.Begin();
-            spriteBatch.Draw(tlo, new Rectangle(0, 0, 1280, 1024), new Rectangle(0, 0, tlo.Width, tlo.Height), Color.AntiqueWhite, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
-            //spriteBatch.DrawString(Font1, text, textpos, new Color(rnd.Next(0,255), rnd.Next(0, 255), rnd.Next(0, 255)));
-            spriteBatch.DrawString(Font1, money.ToString(), new Vector2(500, 10), Color.Gold);
-            //spriteBatch.DrawString(Font1, ((int)frameRate).ToString(), new Vector2(GraphicsDevice.Viewport.Width-100, 10), Color.Gold);
-            if (test) { spriteBatch.DrawString(Font1, "Stage: " + stage.ToString(), new Vector2(10, 50), Color.Gold); }
+            switch (CurrentGameState)
+            {
+                case GameState.MainMenu:
+                    spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                    mainMenu.Draw(spriteBatch);
+                    break;
 
-            pokazpotwor.Draw(potwor, rect, Color.LightCyan);
-            spriteBatch.Draw(texhud, new Rectangle(x, y, 390, GraphicsDevice.Viewport.Height), Color.Black);
+                case GameState.Playing:
+                    spriteBatch.Draw(tlo, new Rectangle(0, 0, 1280, 1024), new Rectangle(0, 0, tlo.Width, tlo.Height), Color.AntiqueWhite, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
+                    spriteBatch.DrawString(Font1, money.ToString(), new Vector2(500, 10), Color.Gold);
+                    if (test) { spriteBatch.DrawString(Font1, "Stage: " + stage.ToString(), new Vector2(10, 50), Color.Gold); }
+                    spriteBatch.Draw(potwor, rect, Color.LightCyan);
+                    spriteBatch.Draw(texhud, new Rectangle(x, y, 390, GraphicsDevice.Viewport.Height), Color.Black);
+                    spriteBatch.Draw(hp, new Rectangle(hpx, hpy, 500, hp.Height), Color.Black * 0.5f);
+                    spriteBatch.Draw(hp1, new Rectangle(hpx + 1, hpy + 1, ((500 * procent(total, current)) / 100) - 1, hp.Height - 1), Color.White);
+                    spriteBatch.DrawString(nazwapotworafont, potwory[1, chosenmob], nazwapotworapos, Color.White * 0.5f);
+                    spriteBatch.DrawString(nazwapotworafont, ((int)current).ToString() + "/" + ((int)total).ToString(), hppotworapos, Color.Green);
+                    break;
+
+            }
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
             spriteBatch.End();
 
-
-            pokazpotwor.End();
-
-            hpbar.Begin();
-            hpbar.Draw(hp, new Rectangle(hpx, hpy, 500, hp.Height), Color.Black * 0.5f);
-            hpbar.Draw(hp1, new Rectangle(hpx + 1, hpy + 1, ((500 * procent(total, current)) / 100) - 1, hp.Height - 1), Color.White);
-            hpbar.DrawString(nazwapotworafont, potwory[1, chosenmob], nazwapotworapos, Color.White * 0.5f);
-            hpbar.DrawString(nazwapotworafont, ((int)current).ToString() + "/" + ((int)total).ToString(), hppotworapos, Color.Green);
-            hpbar.End();
-            if (menub)
-            {
-
-                menu.Begin();
-                menu.Draw(hp, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.Black);
-                menu.DrawString(Font1, "dmg =" + (dmg * mnoznik).ToString(), new Vector2(0, 0), Color.Red);
-                menu.DrawString(Font1, "dmg/s =" + ((dmg * mnoznik) / 500).ToString(), new Vector2(0, 60), Color.Red);
-                menu.DrawString(Font1, "stage =" + stage.ToString(), new Vector2(0, 120), Color.Red);
-                menu.DrawString(Font1, "dmg =" + (dmg * mnoznik).ToString(), new Vector2(0, 0), Color.Red);
-                menu.DrawString(Font1, "killed =" + killed.ToString(), new Vector2(0, 180), Color.Red);
-                menu.DrawString(Font1, "total killed =" + totalkilled.ToString(), new Vector2(0, 240), Color.Red);
-                menu.End();
-            }
 
 
             // TODO: Add your drawing code here

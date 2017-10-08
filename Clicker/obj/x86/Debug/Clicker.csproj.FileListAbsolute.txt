@@ -32,3 +32,8 @@ C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\zbuku.xnb
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\mob_1.xnb
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\mob_2.xnb
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\obj\x86\Debug\Clicker.csprojResolveAssemblyReference.cache
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\MainMenu.xnb
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\Graj.xnb
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\super-pierdzioszek.wma
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\super-pierdzioszek.xnb

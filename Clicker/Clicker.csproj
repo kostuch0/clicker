@@ -45,6 +45,7 @@
     <Compile Include="muzyka.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -61,11 +62,7 @@
     <Content Include="Content\anime_girl5.png" />
     <Content Include="Content\hd.jpg" />
     <Content Include="Content\hp.png" />
-    <Content Include="Content\hp1.png" />
-    <Content Include="Content\mob1.png" />
-    <Content Include="Content\mob2.png" />
     <Content Include="Content\tlo.png" />
-    <Content Include="Content\tlo1.png" />
     <Content Include="Content\zbuku.mp3" />
     <Content Include="Icon.ico" />
   </ItemGroup>
