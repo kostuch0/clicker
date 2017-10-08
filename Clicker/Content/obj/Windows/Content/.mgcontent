@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/anime_girl.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/anime_girl2.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/anime_girl3.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/anime_girl4.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/anime_girl5.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/hd.jpg</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/hp.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/hp_1.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/mob_1.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/mob_2.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/SpriteFont1.spritefont</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/SpriteFont2.spritefont</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/tlo.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/tlo_1.png</File>
+    <File>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/zbuku.mp3</File>
+  </SourceFiles>
+</SourceFileCollection>
