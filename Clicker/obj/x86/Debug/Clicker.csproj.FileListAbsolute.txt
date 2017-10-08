@@ -37,3 +37,4 @@ C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\Graj.xnb
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\super-pierdzioszek.wma
 C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\super-pierdzioszek.xnb
+C:\Users\lolih\Documents\Visual Studio 2015\Projects\Clicker\Clicker\bin\Windows\x86\Debug\Content\grzes.xnb

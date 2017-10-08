@@ -10,10 +10,17 @@ namespace Clicker
 {
     class Muzyka
     {
-        public void graj(Song song)
+        Song lastSong,currentSong;
+        public void setSong(Song song)
         {
-            MediaPlayer.Play(song);
-            MediaPlayer.IsRepeating = true;
+            currentSong= song;
+            if(lastSong == currentSong) { } else
+            {
+                MediaPlayer.Play(song);
+                MediaPlayer.IsRepeating = true;
+            }
+            lastSong = currentSong;
         }
+
     }
 }

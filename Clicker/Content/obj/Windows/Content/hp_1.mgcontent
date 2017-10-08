@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/hp_1.png</SourceFile>
-  <SourceTime>2017-10-08T17:58:44.8401241+02:00</SourceTime>
+  <SourceTime>2017-10-08T22:59:37.5432585+02:00</SourceTime>
   <DestFile>C:/Users/lolih/Documents/Visual Studio 2015/Projects/Clicker/Clicker/Content/bin/Windows/Content/hp_1.xnb</DestFile>
-  <DestTime>2017-10-08T18:13:19.1525231+02:00</DestTime>
+  <DestTime>2017-10-08T22:59:50.0215707+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-10-05T22:12:04+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

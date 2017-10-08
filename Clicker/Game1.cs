@@ -25,6 +25,7 @@ namespace Clicker
         MouseState mouse, currentMouseState, lastMouseState;
         Random rnd = new Random();
         Song song;
+        Model mopotwor;
 
         Rectangle rect;
         string[,] potwory = new string[,] { {"mob_1","mob_2", "anime_girl", "anime_girl2", "anime_girl3", "anime_girl4", "anime_girl5" },
@@ -32,7 +33,6 @@ namespace Clicker
         string[] stages = new string[] { "tlo", "tlo_1" };
         int x = 0, y = 0, ty = 0, hpx = 0, hpy = 0, killed = 0, mousex = 0, mousey = 0, stage = 0, totalkilled = 0, chosenmob = 0;
         double current = 4, total = 5, dmg = 10f, mnoznik = 0.25, money = 0;
-        double frameRate = 0.0;
         bool addingx = true, addingy = true, napis = true, menub = false, test;
         string text;
         enum GameState
@@ -40,6 +40,7 @@ namespace Clicker
             MainMenu,
             Options,
             Playing,
+            Pause
         }
         GameState CurrentGameState = GameState.MainMenu;
         int screenWidth = 1280, screenHeight = 1024;
@@ -157,15 +158,16 @@ namespace Clicker
             pokazpotwor = new SpriteBatch(GraphicsDevice);
             hpbar = new SpriteBatch(GraphicsDevice);
             menu = new SpriteBatch(GraphicsDevice);
+            mopotwor = Content.Load<Model>("grzes");
             potwor = Content.Load<Texture2D>("mob_1");
             tlo = Content.Load<Texture2D>("tlo");
             Font1 = Content.Load<SpriteFont>("SpriteFont1");
             nazwapotworafont = Content.Load<SpriteFont>("SpriteFont2");
-            texhud = Content.Load<Texture2D>("hp");
+            texhud = Content.Load<Texture2D>("hd");
             hp = Content.Load<Texture2D>("hp");
             hp1 = Content.Load<Texture2D>("hp_1");
-            song = Content.Load<Song>("super-pierdzioszek");
-            play.graj(song);
+            
+            
             mainMenu = new MainMenu(playButton, graphics.GraphicsDevice);
             mainMenu.setPosition(new Vector2((screenWidth / 2), 800));
             // TODO: use this.Content to load your game content here
@@ -223,6 +225,7 @@ namespace Clicker
                     current -= (dmg * mnoznik) / 500;
                     break;
                 case true:
+                    if(CurrentGameState == GameState.Playing)
                     current -= dmg * mnoznik;
                     break;
 
@@ -257,7 +260,6 @@ namespace Clicker
         }
 
 
-
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.
@@ -276,43 +278,81 @@ namespace Clicker
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.P))
+                CurrentGameState = GameState.Pause;
+                //Exit();
             MouseState mouse = Mouse.GetState();
             switch (CurrentGameState)
             {
                 case GameState.MainMenu:
                     if (mainMenu.isClicked == true) CurrentGameState = GameState.Playing;
                     mainMenu.Update(mouse);
+                    song = Content.Load<Song>("super-pierdzioszek");
                     break;
 
                 case GameState.Playing:
-                    //fullhd();
+                    fullhd();
                     updatenapis();
                     nowymob();
-                    // TODO: Add your update logic here
                     lastKeyState = keystate;
                     keystate = Keyboard.GetState();
                     poruszanie();
                     zadajobrazenia(false);
                     click();
                     otworzmenu();
+                    song = Content.Load<Song>("zbuku");
                     break;
-                
+
+                case GameState.Pause:
+                    if (mainMenu.isClicked == true) CurrentGameState = GameState.Playing;
+                    mainMenu.Update(mouse);
+                    song = Content.Load<Song>("super-pierdzioszek");
+                    break;
+
+
             }
+            play.setSong(song);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
 
+        private Matrix world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+        private Matrix view = Matrix.CreateLookAt(new Vector3(0, 0, 10), new Vector3(0, 0, 0), Vector3.UnitY);
+        private Matrix projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45), 800f / 480f, 0.1f, 100f);
+        private void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = world;
+                    effect.View = view;
+                    effect.Projection = projection;
+                }
+
+                mesh.Draw();
+            }
+        }
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+
             switch (CurrentGameState)
             {
+
                 case GameState.MainMenu:
+                    spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
+                    mainMenu.Draw(spriteBatch);
+                    break;
+
+                case GameState.Pause:
                     spriteBatch.Draw(Content.Load<Texture2D>("MainMenu"), new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                     mainMenu.Draw(spriteBatch);
                     break;
@@ -321,17 +361,18 @@ namespace Clicker
                     spriteBatch.Draw(tlo, new Rectangle(0, 0, 1280, 1024), new Rectangle(0, 0, tlo.Width, tlo.Height), Color.AntiqueWhite, 0f, new Vector2(0, 0), SpriteEffects.None, 0f);
                     spriteBatch.DrawString(Font1, money.ToString(), new Vector2(500, 10), Color.Gold);
                     if (test) { spriteBatch.DrawString(Font1, "Stage: " + stage.ToString(), new Vector2(10, 50), Color.Gold); }
+                    spriteBatch.Draw(texhud, new Rectangle(x, y, texhud.Width, texhud.Height), Color.AntiqueWhite);
                     spriteBatch.Draw(potwor, rect, Color.LightCyan);
-                    spriteBatch.Draw(texhud, new Rectangle(x, y, 390, GraphicsDevice.Viewport.Height), Color.Black);
-                    spriteBatch.Draw(hp, new Rectangle(hpx, hpy, 500, hp.Height), Color.Black * 0.5f);
-                    spriteBatch.Draw(hp1, new Rectangle(hpx + 1, hpy + 1, ((500 * procent(total, current)) / 100) - 1, hp.Height - 1), Color.White);
-                    spriteBatch.DrawString(nazwapotworafont, potwory[1, chosenmob], nazwapotworapos, Color.White * 0.5f);
-                    spriteBatch.DrawString(nazwapotworafont, ((int)current).ToString() + "/" + ((int)total).ToString(), hppotworapos, Color.Green);
+                    spriteBatch.Draw(hp1, new Vector2(hpx + 1, hpy + 1), new Rectangle(0, 0, ((500 * procent(total, current)) / 100) - 2, hp1.Height + 2), Color.White);
+                    spriteBatch.Draw(hp1, new Rectangle(hpx, hpy, 500, hp.Height), Color.White *0.2f);
+                    
+                    //spriteBatch.DrawString(nazwapotworafont, potwory[1, chosenmob], nazwapotworapos, Color.White * 0.5f);
+                    //spriteBatch.DrawString(nazwapotworafont, ((int)current).ToString() + "/" + ((int)total).ToString(), hppotworapos, Color.Green);
+                    DrawModel(mopotwor, world, view, projection);
                     break;
-
             }
-            GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.DrawString(nazwapotworafont, ((int)(1 / gameTime.ElapsedGameTime.TotalSeconds)).ToString(),new Vector2(0,0), Color.Green);
 
             spriteBatch.End();
 
